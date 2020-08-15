@@ -1,0 +1,23 @@
+trigger:
+- master
+
+resources:
+- repo: self
+
+variables:
+  vmImageName: 'ubuntu-latest'
+
+stages:
+  - stage: Build
+    displayName: Build stage
+    jobs:
+    - job: Build
+      displayName: Build
+      pool:
+        vmImage: $(vmImageName)
+      steps:
+      - script: |
+          wget https://dist.ballerina.io/downloads/1.2.7/ballerina-1.2.7.zip
+          unzip -d /opt ballerina-1.2.7.zip
+          /opt/ballerina-1.2.4/bin/ballerina build todo_service.bal
+        displayName: 'Download and install Ballerina SDK'
